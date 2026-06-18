@@ -10,6 +10,51 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<!-- Beautify: scoped to the publications list only -->
+		<style>
+			/* Each publication entry: no fill/border by default; reveal on hover. */
+			.publications > ul > li {
+				position: relative;
+				padding: 0.9em 1em 0.9em 1.25em;
+				margin-bottom: 0.6em;
+				border: 1px solid transparent;
+				border-radius: 8px;
+				background: transparent;
+				transition: transform 0.2s ease, box-shadow 0.2s ease,
+				            border-color 0.2s ease, background-color 0.2s ease;
+			}
+			.publications > ul > li::before {
+				content: "";
+				position: absolute;
+				left: 0;
+				top: 0;
+				bottom: 0;
+				width: 3px;
+				background: #f56a6a;
+				border-radius: 8px 0 0 8px;
+				opacity: 0;
+				transition: opacity 0.2s ease;
+			}
+			.publications > ul > li:hover {
+				background: #fdfdfd;
+				border-color: rgba(245, 106, 106, 0.4);
+				box-shadow: 0 4px 14px rgba(61, 68, 73, 0.1);
+				transform: translateX(2px);
+			}
+			.publications > ul > li:hover::before {
+				opacity: 1;
+			}
+			.publications > ul > li > p {
+				margin-bottom: 0.35em;
+			}
+			.publications > ul > li > p:first-child a {
+				font-weight: 600;
+			}
+			.publications > ul > li > p:last-child {
+				margin-bottom: 0;
+				font-size: 0.92em;
+			}
+		</style>
 	</head>
 	<body class="is-preload">
 
@@ -209,6 +254,7 @@
 								
 								<h3>Selected Publications</h3>
 								<p>Check out full publications on <a href="https://scholar.google.com/citations?user=slhAlQ0AAAAJ">Google Scholar</a>.</p>
+								<div class="publications">
 								<h4>Zero-Shot Text-to-Speech Synthesis and Evaluation</h4>
 								<ul>
 									<li>
@@ -316,7 +362,8 @@
 										<p>[<a href="https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/zipformer">Code</a>]</p>
 									</li>
 								</ul>
-								
+								</div>
+
 								<h3>Open-Source Projects</h3>
 								<ul>
 									<li>
