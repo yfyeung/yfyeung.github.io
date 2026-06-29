@@ -54,6 +54,49 @@
 				margin-bottom: 0;
 				font-size: 0.92em;
 			}
+
+			/* Banner portrait photo — show the whole image (never cropped) on desktop and iOS/mobile */
+			#banner {
+				-webkit-align-items: center;
+				align-items: center;
+			}
+			#banner .image.object {
+				-webkit-flex-shrink: 0;
+				flex-shrink: 0;
+				display: block;
+				width: 200px;
+				max-width: 38%;
+				height: auto;
+				margin: 0 1.75em 0 0;
+			}
+			#banner .image.object img {
+				display: block;
+				width: 100%;
+				height: auto;
+				max-height: none;
+				object-fit: contain;
+				object-position: center;
+				border-radius: 0.5em;
+			}
+			/* Phones / tablets in portrait: stack, center, keep the whole photo visible */
+			@media screen and (orientation: portrait) {
+				#banner .image.object {
+					width: 60%;
+					max-width: 260px;
+					min-height: 0;
+					max-height: none;
+					height: auto;
+					margin: 0 0 1.5em 0;
+					-webkit-align-self: center;
+					align-self: center;
+				}
+			}
+			@media screen and (orientation: portrait) and (max-width: 480px) {
+				#banner .image.object {
+					width: 66%;
+					max-width: 230px;
+				}
+			}
 		</style>
 	</head>
 	<body class="is-preload">
@@ -73,7 +116,7 @@
 							<!-- Banner -->
 								<section id="banner">
 									<span class="image object">
-                                       	<img src="images/pic001.jpeg" width="100px" padding-bottom="71.4%" alt=""/>
+                                       	<img src="images/profile.jpg" width="700" height="875" alt="Yifan Yang" />
                                     </span>
 									<p>
 										Ph.D. student,<br />
