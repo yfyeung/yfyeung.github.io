@@ -1,0 +1,50 @@
+name: Update Google Scholar citations
+
+on:
+  schedule:
+    - cron: '27 3 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - scripts/update_scholar.py
+      - tests/test_update_scholar.py
+      - .github/workflows/update-scholar.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-scholar-main
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Test citation parsing and snapshot preservation
+        run: python3 -B -m unittest discover -s tests -p 'test_update_scholar.py' -v
+
+      - name: Fetch the public Google Scholar total
+        run: timeout --signal=TERM --kill-after=5s 90s python3 -B scripts/update_scholar.py
+
+      - name: Commit the refreshed snapshot
+        run: |
+          git add -- assets/data/scholar.json
+          if git diff --cached --quiet -- assets/data/scholar.json; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit --only -m 'chore: update Google Scholar citations' -- assets/data/scholar.json
+          git pull --rebase origin main
+          git push origin HEAD:main
